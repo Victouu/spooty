@@ -6,7 +6,7 @@ import { Dashboard } from "./Dashboard";
 export const Profile = () => {
   const { token } = useAuth();
   const { getCurrentUserProfile } = useSpotify();
-  const [profile, setProfile] = useState<any>(null);
+  const [setProfile] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

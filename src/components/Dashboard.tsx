@@ -43,13 +43,13 @@ export const Dashboard = () => {
       try {
         const [profileData, topTracks, topArtists] = await Promise.all([
           getCurrentUserProfile(),
-          getTopTracks(timeRange, 10),
-          getTopArtists(timeRange, 10),
+          getTopTracks(timeRange, 10) as Promise<{ items: Track[] }>,
+          getTopArtists(timeRange, 10) as Promise<{ items: Artist[] }>,
         ]);
 
         // Récupérer le nombre d'écoutes pour chaque titre
         const tracksWithPlayCount = await Promise.all(
-          (topTracks as any).items.map(async (track: any) => {
+          topTracks.items.map(async (track: Track) => {
             const playCount = await getTrackPlayCount(track.id);
             return { ...track, playCount };
           })
@@ -57,7 +57,7 @@ export const Dashboard = () => {
 
         setProfile(profileData);
         setTracks(tracksWithPlayCount);
-        setArtists((topArtists as any).items);
+        setArtists(topArtists.items);
       } catch (error) {
         console.error("Erreur:", error);
       } finally {
