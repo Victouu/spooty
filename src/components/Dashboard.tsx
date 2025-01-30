@@ -143,8 +143,8 @@ export const Dashboard = () => {
                     <img
                       src={
                         activeTab === "tracks"
-                          ? item.album.images[0]?.url
-                          : item.images[0]?.url
+                          ? (item as Track).album.images[0]?.url
+                          : (item as Artist).images[0]?.url
                       }
                       className="w-12 h-12 rounded-lg object-cover"
                       alt={item.name}
@@ -155,13 +155,18 @@ export const Dashboard = () => {
                       </h3>
                       <p className="text-[#B8B5CC] text-sm">
                         {activeTab === "tracks"
-                          ? item.artists.map((a: any) => a.name).join(", ")
-                          : `${item.followers.total.toLocaleString()} followers`}
+                          ? (item as Track).artists
+                              .map((a) => a.name)
+                              .join(", ")
+                          : `${(
+                              item as Artist
+                            ).followers.total.toLocaleString()} followers`}{" "}
                       </p>
                     </div>
                     {activeTab === "tracks" && (
                       <span className="text-[#8A6BF6] bg-[#5A43D9]/10 px-3 py-1 rounded-full">
-                        {(item as Track).playCount} écoutes
+                        {(item as Track).playCount} écoutes{" "}
+                        {/* Explicitly cast to Track */}
                       </span>
                     )}
                   </div>
