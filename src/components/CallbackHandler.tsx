@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
 
 export const CallbackHandler = () => {
-  const { login, logout } = useAuth();
+  const { logout } = useAuth();
 
   useEffect(() => {
     const hash = window.location.hash.substring(1);
@@ -15,11 +15,11 @@ export const CallbackHandler = () => {
     } else {
       logout();
     }
-  }, []);
+  }, [logout]);
 
   return (
-    <div className="min-h-screen bg-dark-1 flex items-center justify-center">
-      <div className="animate-pulse text-purple-500">Connexion en cours...</div>
+    <div className="min-h-screen bg-[#0F0C24] flex items-center justify-center">
+      <div className="animate-pulse text-[#8A6BF6]">Connexion en cours...</div>
     </div>
   );
 };

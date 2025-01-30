@@ -4,6 +4,21 @@ import { useSpotify } from "../hooks/useSpotify";
 import { NowPlayingBar } from "./NowPlayingBar";
 import { TimeRangeFilter } from "./TimeRangeFilter";
 
+interface Track {
+  id: string;
+  name: string;
+  album: { images: { url: string }[] };
+  artists: { name: string }[];
+  playCount: number;
+}
+
+interface Artist {
+  id: string;
+  name: string;
+  images: { url: string }[];
+  followers: { total: number };
+}
+
 export const Dashboard = () => {
   const {
     getTopTracks,
@@ -12,8 +27,8 @@ export const Dashboard = () => {
     getTrackPlayCount,
   } = useSpotify();
   const { token, logout } = useAuth();
-  const [tracks, setTracks] = useState<any[]>([]);
-  const [artists, setArtists] = useState<any[]>([]);
+  const [tracks, setTracks] = useState<Track[]>([]);
+  const [artists, setArtists] = useState<Artist[]>([]);
   const [profile, setProfile] = useState<any>(null);
   const [activeTab, setActiveTab] = useState<"tracks" | "artists">("tracks");
   const [timeRange, setTimeRange] = useState<
@@ -34,7 +49,7 @@ export const Dashboard = () => {
 
         // Récupérer le nombre d'écoutes pour chaque titre
         const tracksWithPlayCount = await Promise.all(
-          topTracks.items.map(async (track: any) => {
+          (topTracks as any).items.map(async (track: any) => {
             const playCount = await getTrackPlayCount(track.id);
             return { ...track, playCount };
           })
@@ -42,7 +57,7 @@ export const Dashboard = () => {
 
         setProfile(profileData);
         setTracks(tracksWithPlayCount);
-        setArtists(topArtists.items);
+        setArtists((topArtists as any).items);
       } catch (error) {
         console.error("Erreur:", error);
       } finally {
@@ -146,7 +161,7 @@ export const Dashboard = () => {
                     </div>
                     {activeTab === "tracks" && (
                       <span className="text-[#8A6BF6] bg-[#5A43D9]/10 px-3 py-1 rounded-full">
-                        {item.playCount} écoutes
+                        {(item as Track).playCount} écoutes
                       </span>
                     )}
                   </div>

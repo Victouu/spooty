@@ -18,7 +18,9 @@ export const TimeRangeFilter = ({
       {ranges.map((range) => (
         <button
           key={range.value}
-          onClick={() => onChange(range.value)}
+          onClick={() =>
+            onChange(range.value as "short_term" | "medium_term" | "long_term")
+          }
           className={`px-4 py-2 rounded-full text-sm transition-colors ${
             selectedRange === range.value
               ? "bg-[#8A6BF6] text-white"
