@@ -43,8 +43,8 @@ export const Dashboard = () => {
       try {
         const [profileData, topTracks, topArtists] = await Promise.all([
           getCurrentUserProfile(),
-          getTopTracks(timeRange, 10) as Promise<{ items: Track[] }>,
-          getTopArtists(timeRange, 10) as Promise<{ items: Artist[] }>,
+          getTopTracks(timeRange, 30) as Promise<{ items: Track[] }>,
+          getTopArtists(timeRange, 30) as Promise<{ items: Artist[] }>,
         ]);
 
         // Récupérer le nombre d'écoutes pour chaque titre
